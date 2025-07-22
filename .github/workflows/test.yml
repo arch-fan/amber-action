@@ -14,6 +14,7 @@ jobs:
           root: test/default-entrypoint
 
       - name: Run compiled script and verify output
+        working-directory: test/default-entrypoint
         run: |
           expected="Hello, World!"
           actual=$(./main.sh)
@@ -37,6 +38,7 @@ jobs:
           entrypoints: "foo.ab"
 
       - name: Run compiled script and verify output
+        working-directory: test/custom-entrypoint
         run: |
           expected="Hello, World!"
           actual=$(./foo.sh)
@@ -60,6 +62,7 @@ jobs:
           entrypoints: "main.ab,foo.ab"
 
       - name: Run compiled script and verify output
+        working-directory: test/multiple-entrypoints
         run: |
           expected="Hello, World!"
           first=$(./main.sh)
