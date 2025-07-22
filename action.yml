@@ -2,6 +2,10 @@ name: "Amber Language Compiler"
 description: "Compile Amber Language code to Bash scripts"
 
 inputs:
+  root:
+    description: "Root directory of the Amber project"
+    required: false
+    default: "."
   entrypoints:
     description: "List of Amber files to compile (sepparated by commas)"
     required: true
@@ -10,6 +14,7 @@ inputs:
 runs:
   using: "docker"
   image: "ghcr.io/amber-lang/amber:debian-0.4.0-alpha"
+  entrypoint: "/bin/bash"
   args:
-    - "build"
-    - "${inputs.entrypoints}"
+    - "-c"
+    - "cd ${{ inputs.root }} && amber build ${{ inputs.entrypoints }}"
