@@ -7,7 +7,7 @@ inputs:
     required: false
     default: "."
   entrypoints:
-    description: "List of Amber files to compile (sepparated by commas)"
+    description: "List of Amber files to compile (sepparated by spaces)"
     required: true
     default: "main.ab"
 

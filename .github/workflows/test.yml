@@ -59,7 +59,7 @@ jobs:
         uses: ./
         with:
           root: test/multiple-entrypoints
-          entrypoints: "main.ab,foo.ab"
+          entrypoints: "main.ab foo.ab"
 
       - name: Run compiled script and verify output
         working-directory: test/multiple-entrypoints
