@@ -10,11 +10,13 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+        with:
+          sparse-checkout: |
+            test/default-entrypoint
+          sparse-checkout-cone-mode: false
 
       - name: Compile Amber Code
-        uses: ./
-        with:
-          root: test/default-entrypoint
+        uses: arch-fan/amber-action@main
 
       - name: Run compiled script and verify output
         run: |
