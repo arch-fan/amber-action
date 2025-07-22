@@ -1,0 +1,3 @@
+main(args) {
+    echo "Hello, World!"
+}

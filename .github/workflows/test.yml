@@ -3,20 +3,15 @@ on: [push, pull_request]
 
 jobs:      
   test-default:
-    defaults:
-      run:
-        working-directory: test/default-entrypoint
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-        with:
-          sparse-checkout: |
-            test/default-entrypoint
-          sparse-checkout-cone-mode: false
 
       - name: Compile Amber Code
-        uses: arch-fan/amber-action@main
+        uses: ./
+        with:
+          root: test/default-entrypoint
 
       - name: Run compiled script and verify output
         run: |
@@ -26,5 +21,57 @@ jobs:
           echo "Actual: $actual"
           if [ "$actual" != "$expected" ]; then
             echo "Error: Output mismatch"
+            exit 1
+          fi
+
+  test-custom:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Compile Amber Code
+        uses: ./
+        with:
+          root: test/custom-entrypoint
+          entrypoints: "foo.ab"
+
+      - name: Run compiled script and verify output
+        run: |
+          expected="Hello, World!"
+          actual=$(./foo.sh)
+          echo "Expected: $expected"
+          echo "Actual: $actual"
+          if [ "$actual" != "$expected" ]; then
+            echo "Error: Output mismatch"
+            exit 1
+          fi
+
+  test-multiple-entrypoints:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Compile Amber Code
+        uses: ./
+        with:
+          root: test/multiple-entrypoints
+          entrypoints: "main.ab,foo.ab"
+
+      - name: Run compiled script and verify output
+        run: |
+          expected="Hello, World!"
+          first=$(./main.sh)
+          second=$(./foo.sh)
+          echo "Expected: $expected"
+          echo "Actual (main): $first"
+          echo "Actual (foo): $second"
+          if [ "$first" != "$expected" ]; then
+            echo "Error: Output mismatch (main)"
+            exit 1
+          fi
+          if [ "$second" != "$expected" ]; then
+            echo "Error: Output mismatch (foo)"
             exit 1
           fi
