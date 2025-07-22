@@ -1,0 +1,15 @@
+name: "Amber Language Compiler"
+description: "Compile Amber Language code to Bash scripts"
+
+inputs:
+  entrypoints:
+    description: "List of Amber files to compile (sepparated by commas)"
+    required: true
+    default: "main.ab"
+
+runs:
+  using: "docker"
+  image: "ghcr.io/amber-lang/amber:debian-0.4.0-alpha"
+  args:
+    - "build"
+    - "${inputs.entrypoints}"

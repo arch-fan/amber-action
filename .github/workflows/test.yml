@@ -1,0 +1,15 @@
+name: "Amber Language Action Test"
+on: [push, pull_request]
+
+jobs:      
+  test-default:
+    defaults:
+      run:
+        working-directory: test/default-entrypoint
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Compile Amber Code
+        uses: ../../
